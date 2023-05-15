@@ -182,6 +182,7 @@ class LineTest {
             // then
             assertThat(baseExceptionType).isEqualTo(SURCHARGE_IS_NEGATIVE);
         }
+
     }
 
     @Nested
@@ -205,7 +206,7 @@ class LineTest {
             line.addSection(middle2);
 
             // then
-            포함된_노선들을_검증한다(line,
+            포함된_구간들을_검증한다(line.sections(),
                     "출발역-[1km]-경유역1",
                     "경유역1-[5km]-경유역2",
                     "경유역2-[4km]-종착역"
@@ -229,7 +230,7 @@ class LineTest {
             line.addSection(top);
 
             // then
-            포함된_노선들을_검증한다(line,
+            포함된_구간들을_검증한다(line.sections(),
                     "출발역-[1km]-선릉",
                     "선릉-[7km]-잠실",
                     "잠실-[10km]-종착역"
@@ -253,7 +254,7 @@ class LineTest {
             line.addSection(down);
 
             // then
-            포함된_노선들을_검증한다(line,
+            포함된_구간들을_검증한다(line.sections(),
                     "출발역-[10km]-잠실",
                     "잠실-[7km]-선릉",
                     "선릉-[1km]-종착역"
@@ -338,7 +339,7 @@ class LineTest {
             line.removeStation(잠실);
 
             // then
-            포함된_노선들을_검증한다(line,
+            포함된_구간들을_검증한다(line.sections(),
                     "출발역-[15km]-잠실나루",
                     "잠실나루-[7km]-종착역"
             );
@@ -359,7 +360,7 @@ class LineTest {
             line.removeStation(출발역);
 
             // then
-            포함된_노선들을_검증한다(line,
+            포함된_구간들을_검증한다(line.sections(),
                     "잠실-[5km]-잠실나루",
                     "잠실나루-[7km]-종착역"
             );
@@ -380,7 +381,7 @@ class LineTest {
             line.removeStation(종착역);
 
             // then
-            포함된_노선들을_검증한다(line,
+            포함된_구간들을_검증한다(line.sections(),
                     "출발역-[10km]-잠실",
                     "잠실-[5km]-잠실나루"
             );
@@ -413,9 +414,5 @@ class LineTest {
             // then
             assertThat(line.sections()).isEmpty();
         }
-    }
-
-    private void 포함된_노선들을_검증한다(final Line line, final String... sectionStrings) {
-        포함된_구간들을_검증한다(line.sections(), sectionStrings);
     }
 }
