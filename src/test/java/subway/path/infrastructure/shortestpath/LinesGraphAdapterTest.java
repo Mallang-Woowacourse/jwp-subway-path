@@ -32,15 +32,18 @@ class LinesGraphAdapterTest {
      */
     private final Path path = new Path(
             new Line("1호선",
+                    0,
                     new Section(역1, 역2, 10),
                     new Section(역2, 역3, 5),
                     new Section(역3, 역4, 7)
             ),
             new Line("2호선",
+                    0,
                     new Section(역6, 역3, 7),
                     new Section(역3, 역5, 1)
             ),
             new Line("3호선",
+                    0,
                     new Section(역1, 역7, 10),
                     new Section(역7, 역8, 5)
             )

@@ -81,7 +81,8 @@ class LineServiceTest {
                     "1호선",
                     "잠실",
                     "선릉",
-                    10);
+                    10,
+                    0);
 
             // when
             final UUID uuid = lineService.create(command);
@@ -97,16 +98,16 @@ class LineServiceTest {
             // given
             역을_저장한다(역1);
             역을_저장한다(역2);
-            final Line exist = new Line("1호선", new Sections(List.of(
+            final Line exist = new Line("1호선", 0,
                     new Section(역1, 역2, 1)
-            )));
+            );
             given(lineRepository.findAll()).willReturn(List.of(exist));
             given(lineRepository.findByName("2호선")).willReturn(Optional.empty());
             final LineCreateCommand command = new LineCreateCommand(
                     "2호선",
                     "역1",
                     "역2",
-                    10);
+                    10, 0);
 
             // when & then
             final BaseExceptionType exceptionType = assertThrows(LineException.class, () ->
@@ -126,7 +127,7 @@ class LineServiceTest {
             역을_저장한다(선릉);
             역을_저장한다(건대입구);
             final Section section = new Section(잠실, 선릉, 10);
-            final Line line = new Line("1호선", new Sections(section));
+            final Line line = new Line("1호선", 0, section);
             given(lineRepository.findAll()).willReturn(List.of(line));
             given(lineRepository.findByName("1호선")).willReturn(Optional.of(line));
             final AddStationToLineCommand command = new AddStationToLineCommand(
@@ -153,13 +154,13 @@ class LineServiceTest {
             역을_저장한다(역3);
             역을_저장한다(역4);
 
-            final Line line1 = new Line("1호선", new Sections(List.of(
+            final Line line1 = new Line("1호선", 0,
                     new Section(역1, 역2, 10),
                     new Section(역2, 역3, 10)
-            )));
-            final Line line2 = new Line("2호선", new Sections(List.of(
+            );
+            final Line line2 = new Line("2호선", 0,
                     new Section(역3, 역4, 10)
-            )));
+            );
             given(lineRepository.findAll()).willReturn(List.of(line1, line2));
             given(lineRepository.findByName("2호선")).willReturn(Optional.of(line2));
             final AddStationToLineCommand command = new AddStationToLineCommand(
@@ -186,7 +187,7 @@ class LineServiceTest {
                     new Section(역1, 역2, 10),
                     new Section(역2, 역3, 10)));
             final DeleteStationFromLineCommand command = new DeleteStationFromLineCommand("1호선", "역2");
-            final Line line = new Line("1호선", sections);
+            final Line line = new Line("1호선", 0, sections);
             given(lineRepository.findByName("1호선"))
                     .willReturn(Optional.of(line));
             역을_저장한다(역2);
@@ -207,7 +208,7 @@ class LineServiceTest {
             // given
             final Sections sections = new Sections(new Section(역1, 역2, 10));
             final DeleteStationFromLineCommand command = new DeleteStationFromLineCommand("1호선", "역2");
-            final Line line = new Line("1호선", sections);
+            final Line line = new Line("1호선", 0, sections);
             given(lineRepository.findByName("1호선"))
                     .willReturn(Optional.of(line));
             역을_저장한다(역2);

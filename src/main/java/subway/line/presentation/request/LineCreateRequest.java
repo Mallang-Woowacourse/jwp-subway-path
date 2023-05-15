@@ -18,21 +18,25 @@ public class LineCreateRequest {
     @NotNull(message = "거리 정보가 있어야 합니다")
     private Integer distance;
 
+    private Integer surcharge = 0;
+
     private LineCreateRequest() {
     }
 
     public LineCreateRequest(final String lineName,
                              final String upTerminalName,
                              final String downTerminalName,
-                             final Integer distance) {
+                             final Integer distance,
+                             final Integer surcharge) {
         this.lineName = lineName;
         this.upTerminalName = upTerminalName;
         this.downTerminalName = downTerminalName;
         this.distance = distance;
+        this.surcharge = surcharge;
     }
 
     public LineCreateCommand toCommand() {
-        return new LineCreateCommand(lineName, upTerminalName, downTerminalName, distance);
+        return new LineCreateCommand(lineName, upTerminalName, downTerminalName, distance, surcharge);
     }
 
     public String getLineName() {
@@ -49,5 +53,9 @@ public class LineCreateRequest {
 
     public Integer getDistance() {
         return distance;
+    }
+
+    public Integer getSurcharge() {
+        return surcharge;
     }
 }

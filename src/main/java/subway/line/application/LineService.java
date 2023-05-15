@@ -50,7 +50,7 @@ public class LineService {
         final Station down = findStationByName(command.downTerminalName());
         final Section section = new Section(up, down, command.distance());
         lineValidator.validateSectionConsistency(section);
-        final Line line = new Line(command.lineName(), new Sections(section));
+        final Line line = new Line(command.lineName(), command.surcharge(), new Sections(section));
         lineRepository.save(line);
         applicationEventPublisher.publishEvent(new ChangeLineEvent());
         return line.id();

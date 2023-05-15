@@ -51,7 +51,8 @@ public class LineStationControllerIntegrationTest {
             역_생성_요청("말랑역");
             역_생성_요청("경유역");
             역_생성_요청("오리역");
-            final UUID 생성된_노선_아이디 = 노선_생성하고_아이디_반환("1호선", "말랑역", "오리역", 10);
+            final UUID 생성된_노선_아이디 = 노선_생성하고_아이디_반환(
+                    "1호선", "말랑역", "오리역", 10, 0);
 
             // when
             final ExtractableResponse<Response> response =
@@ -60,8 +61,10 @@ public class LineStationControllerIntegrationTest {
             // then
             assertThat(response.statusCode()).isEqualTo(OK.value());
             final ExtractableResponse<Response> 노선_조회_응답 = 노선_조회_요청(생성된_노선_아이디);
-            노선에_포함된_N번째_구간을_검증한다(노선_조회_응답, 0, "말랑역", "경유역", 4);
-            노선에_포함된_N번째_구간을_검증한다(노선_조회_응답, 1, "경유역", "오리역", 6);
+            노선에_포함된_N번째_구간을_검증한다(
+                    노선_조회_응답, 0, "말랑역", "경유역", 4);
+            노선에_포함된_N번째_구간을_검증한다(
+                    노선_조회_응답, 1, "경유역", "오리역", 6);
         }
 
         @Test
@@ -70,7 +73,7 @@ public class LineStationControllerIntegrationTest {
             역_생성_요청("말랑역");
             역_생성_요청("경유역");
             역_생성_요청("오리역");
-            노선_생성_요청("1호선", "말랑역", "오리역", 10);
+            노선_생성_요청("1호선", "말랑역", "오리역", 10, 0);
 
             // when
             final ExtractableResponse<Response> response =
@@ -85,7 +88,7 @@ public class LineStationControllerIntegrationTest {
             // given
             역_생성_요청("말랑역");
             역_생성_요청("오리역");
-            노선_생성_요청("1호선", "말랑역", "오리역", 10);
+            노선_생성_요청("1호선", "말랑역", "오리역", 10, 0);
 
             // when
             final ExtractableResponse<Response> response =
@@ -101,7 +104,7 @@ public class LineStationControllerIntegrationTest {
             역_생성_요청("말랑역");
             역_생성_요청("경유역");
             역_생성_요청("오리역");
-            노선_생성_요청("1호선", "말랑역", "오리역", 10);
+            노선_생성_요청("1호선", "말랑역", "오리역", 10, 0);
 
             // when
             final ExtractableResponse<Response> response =
@@ -117,7 +120,7 @@ public class LineStationControllerIntegrationTest {
             역_생성_요청("말랑역");
             역_생성_요청("경유역");
             역_생성_요청("오리역");
-            노선_생성_요청("1호선", "말랑역", "오리역", 10);
+            노선_생성_요청("1호선", "말랑역", "오리역", 10, 0);
             노선에_역_추가_요청("1호선", "말랑역", "경유역", 3);
 
             // when
@@ -134,8 +137,8 @@ public class LineStationControllerIntegrationTest {
             역_생성_요청("역1");
             역_생성_요청("역2");
             역_생성_요청("역3");
-            노선_생성_요청("1호선", "역1", "역2", 1);
-            노선_생성_요청("2호선", "역2", "역3", 2);
+            노선_생성_요청("1호선", "역1", "역2", 1, 0);
+            노선_생성_요청("2호선", "역2", "역3", 2, 0);
 
             // when
             final ExtractableResponse<Response> response =
@@ -151,8 +154,8 @@ public class LineStationControllerIntegrationTest {
             역_생성_요청("역1");
             역_생성_요청("역2");
             역_생성_요청("역3");
-            노선_생성_요청("1호선", "역1", "역2", 1);
-            노선_생성_요청("2호선", "역2", "역3", 10);
+            노선_생성_요청("1호선", "역1", "역2", 1, 0);
+            노선_생성_요청("2호선", "역2", "역3", 10, 0);
 
             // when
             final ExtractableResponse<Response> response =
@@ -168,8 +171,10 @@ public class LineStationControllerIntegrationTest {
             역_생성_요청("역1");
             역_생성_요청("역2");
             역_생성_요청("역3");
-            노선_생성_요청("1호선", "역1", "역2", 2);
-            final UUID 생성된_노선_아이디 = 노선_생성하고_아이디_반환("2호선", "역2", "역3", 10);
+            노선_생성_요청("1호선", "역1", "역2", 2, 0);
+            final UUID 생성된_노선_아이디 = 노선_생성하고_아이디_반환(
+                    "2호선", "역2", "역3", 10, 0
+            );
 
             // when
             final ExtractableResponse<Response> response =
@@ -178,8 +183,12 @@ public class LineStationControllerIntegrationTest {
             // then
             assertThat(response.statusCode()).isEqualTo(OK.value());
             final ExtractableResponse<Response> 노선_조회_응답 = 노선_조회_요청(생성된_노선_아이디);
-            노선에_포함된_N번째_구간을_검증한다(노선_조회_응답, 0, "역1", "역2", 2);
-            노선에_포함된_N번째_구간을_검증한다(노선_조회_응답, 1, "역2", "역3", 10);
+            노선에_포함된_N번째_구간을_검증한다(
+                    노선_조회_응답, 0, "역1", "역2", 2
+            );
+            노선에_포함된_N번째_구간을_검증한다(
+                    노선_조회_응답, 1, "역2", "역3", 10
+            );
         }
     }
 
@@ -192,7 +201,8 @@ public class LineStationControllerIntegrationTest {
             역_생성_요청("잠실역");
             역_생성_요청("선릉역");
             역_생성_요청("사당역");
-            final UUID 노선_아이디 = 노선_생성하고_아이디_반환("1호선", "잠실역", "선릉역", 10);
+            final UUID 노선_아이디 = 노선_생성하고_아이디_반환(
+                    "1호선", "잠실역", "선릉역", 10, 0);
             노선에_역_추가_요청("1호선", "선릉역", "사당역", 5);
 
             // when
@@ -201,7 +211,9 @@ public class LineStationControllerIntegrationTest {
             // then
             assertThat(response.statusCode()).isEqualTo(OK.value());
             final ExtractableResponse<Response> 노선_조회_응답 = 노선_조회_요청(노선_아이디);
-            노선에_포함된_N번째_구간을_검증한다(노선_조회_응답, 0, "잠실역", "사당역", 15);
+            노선에_포함된_N번째_구간을_검증한다(
+                    노선_조회_응답, 0, "잠실역", "사당역", 15
+            );
         }
 
         @Test
@@ -210,7 +222,9 @@ public class LineStationControllerIntegrationTest {
             역_생성_요청("잠실역");
             역_생성_요청("선릉역");
             역_생성_요청("사당역");
-            final UUID 노선_아이디 = 노선_생성하고_아이디_반환("1호선", "잠실역", "선릉역", 10);
+            final UUID 노선_아이디 = 노선_생성하고_아이디_반환(
+                    "1호선", "잠실역", "선릉역", 10, 0
+            );
             노선에_역_추가_요청("1호선", "선릉역", "사당역", 5);
             노선에_역_제거_요청("1호선", "선릉역");
 

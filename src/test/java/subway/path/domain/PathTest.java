@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import subway.line.domain.Line;
 import subway.line.domain.Section;
-import subway.line.domain.Sections;
 import subway.line.domain.Station;
 import subway.line.domain.fixture.StationFixture;
 import subway.line.exception.line.LineException;
@@ -22,17 +21,20 @@ import subway.line.exception.line.LineException;
 class PathTest {
 
     private final Path path = new Path(
-            new Line("2호선", new Sections(List.of(
+            new Line("2호선",
+                    0,
+
                     new Section(StationFixture.선릉, StationFixture.역2, 1),
                     new Section(StationFixture.역2, StationFixture.잠실, 7)
-            ))),
-            new Line("1호선", new Sections(List.of(
+            ),
+            new Line("1호선", 0,
                     new Section(StationFixture.선릉, StationFixture.역4, 10),
                     new Section(StationFixture.역4, StationFixture.역5, 5)
-            ))),
-            new Line("4호선", new Sections(List.of(
+            ),
+            new Line("4호선", 0,
+
                     new Section(StationFixture.역6, StationFixture.역5, 10)
-            )))
+            )
     );
 
     @Test

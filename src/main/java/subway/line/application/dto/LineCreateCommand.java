@@ -6,15 +6,18 @@ public class LineCreateCommand {
     private final String upTerminalName;
     private final String downTerminalName;
     private final int distance;
+    private final int surcharge;
 
     public LineCreateCommand(final String lineName,
                              final String upTerminalName,
                              final String downTerminalName,
-                             final int distance) {
+                             final int distance,
+                             final int surcharge) {
         this.lineName = lineName;
         this.upTerminalName = upTerminalName;
         this.downTerminalName = downTerminalName;
         this.distance = distance;
+        this.surcharge = surcharge;
     }
 
     public String lineName() {
@@ -31,5 +34,9 @@ public class LineCreateCommand {
 
     public int distance() {
         return distance;
+    }
+
+    public int surcharge() {
+        return surcharge;
     }
 }

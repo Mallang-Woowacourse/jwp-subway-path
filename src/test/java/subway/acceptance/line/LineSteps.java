@@ -10,6 +10,8 @@ import io.restassured.response.Response;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.core.ParameterizedTypeReference;
+import subway.common.exception.BaseExceptionType;
+import subway.common.exception.ExceptionResponse;
 import subway.line.application.dto.LineQueryResponse;
 import subway.line.application.dto.LineQueryResponse.SectionQueryResponse;
 import subway.line.presentation.request.LineCreateRequest;
@@ -21,9 +23,15 @@ public class LineSteps {
             final String lineName,
             final String upTerminalName,
             final String downTerminalName,
-            final Integer distance
+            final Integer distance,
+            final Integer surcharge
     ) {
-        final LineCreateRequest request = new LineCreateRequest(lineName, upTerminalName, downTerminalName, distance);
+        final LineCreateRequest request = new LineCreateRequest(
+                lineName,
+                upTerminalName,
+                downTerminalName,
+                distance,
+                surcharge);
         return 노선_생성_요청(request);
     }
 
@@ -43,9 +51,11 @@ public class LineSteps {
             final String lineName,
             final String upTerminalName,
             final String downTerminalName,
-            final Integer distance
+            final Integer distance,
+            final Integer surcharge
     ) {
-        final LineCreateRequest request = new LineCreateRequest(lineName, upTerminalName, downTerminalName, distance);
+        final LineCreateRequest request = new LineCreateRequest(
+                lineName, upTerminalName, downTerminalName, distance, surcharge);
         final ExtractableResponse<Response> response = 노선_생성_요청(request);
         return 응답_헤더에_담긴_노선_아이디(response);
     }
@@ -83,6 +93,15 @@ public class LineSteps {
         assertThat(response.getLineName()).isEqualTo(lineName);
     }
 
+    public static void 단일_노선의_가격을_검증한다(final ExtractableResponse<Response> response, final int surcharge) {
+        final LineQueryResponse result = response.as(LineQueryResponse.class);
+        단일_노선의_가격을_검증한다(result, surcharge);
+    }
+
+    public static void 단일_노선의_가격을_검증한다(final LineQueryResponse response, final int surcharge) {
+        assertThat(response.getSurcharge()).isEqualTo(surcharge);
+    }
+
     public static void 노선에_포함된_N번째_구간을_검증한다(
             final ExtractableResponse<Response> response,
             final int index,
@@ -112,5 +131,16 @@ public class LineSteps {
                 new ParameterizedTypeReference<List<LineQueryResponse>>() {
                 }.getType()
         );
+    }
+
+    public static void 발생한_예외를_검증한다(
+            final ExtractableResponse<Response> response,
+            final BaseExceptionType baseExceptionType
+    ) {
+        final ExceptionResponse exceptionResponse = response.as(ExceptionResponse.class);
+        assertThat(exceptionResponse.getCode())
+                .isEqualTo(String.valueOf(baseExceptionType.errorCode()));
+        assertThat(exceptionResponse.getMessage())
+                .isEqualTo(baseExceptionType.errorMessage());
     }
 }
